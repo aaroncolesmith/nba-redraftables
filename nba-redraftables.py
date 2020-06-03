@@ -70,7 +70,7 @@ def redraft_bar(year, df):
     fig.update_yaxes(tickfont=dict(size=8))
     fig.update_xaxes(tickfont=dict(size=8))
     # st.plotly_chart(fig)
-    st.plotly_chart(fig,width=1100,height=900)
+    st.plotly_chart(fig,height=800)
 
 
 
