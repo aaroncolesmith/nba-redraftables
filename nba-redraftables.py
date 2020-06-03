@@ -24,7 +24,10 @@ def redraft_data(year, df):
 def draft_scatter(year, df):
     d=redraft_data(year, df)
 
+    good=d.loc[d.Pick_Analysis == 'Good Pick'].index.size
+    bad=d.loc[d.Pick_Analysis == 'Bad Pick'].index.size
     WSPS=round(d.WSPS.sum(),1)
+
 
     fig=px.scatter(d,
                x='Pk',
