@@ -66,12 +66,13 @@ def redraft_bar(year, df):
            orientation='h',
                height=800
           )
-    fig.update_layout(width=1100,height=900)
+
     fig.update_yaxes(tickfont=dict(size=8))
     fig.update_xaxes(tickfont=dict(size=8))
-    # st.plotly_chart(fig)
-    st.plotly_chart(fig,height=800)
 
+    fig.update_layout(height=800)
+
+    st.plotly_chart(fig)
 
 
 def main():
