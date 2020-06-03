@@ -72,6 +72,7 @@ def redraft_bar(year, df):
 
     fig.update_layout(height=800)
 
+    st.plotly_chart(fig,height=800)
     st.plotly_chart(fig)
 
 
