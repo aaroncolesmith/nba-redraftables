@@ -9,18 +9,21 @@ def load_data():
 
     return df
 
-def draft_scatter(year, df):
-    d=df.loc[df.Year == year.astype('int')].sort_values('WSPS',ascending=False)
-    d=d.reset_index(drop=True)
-    d=d.reset_index(drop=False)
-    d=d.rename(columns={'index':'Redraft'})
+def redraft_data(year, df):
+    d = df.loc[df.Year == year].sort_values('WSPS',ascending=False)
+    d = d.reset_index(drop=True)
+    d = d.reset_index(drop=False)
+    d = d.rename(columns={'index':'Redraft'})
     d['Redraft'] = d['Redraft']+1
 
     d.loc[(d.Pk - d.Redraft) < 0,'Pick_Analysis'] = 'Bad Pick'
     d.loc[(d.Pk - d.Redraft) >= 0,'Pick_Analysis'] = 'Good Pick'
 
-    good=d.loc[d.Pick_Analysis == 'Good Pick'].index.size
-    bad=d.loc[d.Pick_Analysis == 'Bad Pick'].index.size
+    return d
+
+def draft_scatter(year, df):
+    d=redraft_data(year, df)
+
     WSPS=round(d.WSPS.sum(),1)
 
     fig=px.scatter(d,
@@ -49,6 +52,24 @@ def draft_scatter(year, df):
 
     st.plotly_chart(fig)
 
+def redraft_bar(year, df):
+    d = redraft_data(year, df)
+    fig=px.bar(d.sort_values('WSPS',ascending=True),
+           y='Player',
+           x='WSPS',
+               title='Win Shares Per Season (WSPS) by Player',
+               hover_data=['Pk','Redraft','Tm','College'],
+           orientation='h',
+               height=800
+          )
+
+    fig.update_yaxes(tickfont=dict(size=8))
+    fig.update_xaxes(tickfont=dict(size=8))
+    st.plotly_chart(fig)
+
+
+
+
 def main():
     st.write("""
     # Welcome to NBA Redraftables!
@@ -59,7 +80,7 @@ def main():
     year = st.selectbox('Select a year to view the draft - ',year_list,0)
     if len(year) > 0:
         draft_scatter(year, df)
-
+        redraft_bar(year, df)
 
 if __name__ == "__main__":
     #execute
