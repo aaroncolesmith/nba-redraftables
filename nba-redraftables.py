@@ -10,7 +10,7 @@ def load_data():
     return df
 
 def redraft_data(year, df):
-    d = df.loc[df.Year == year].sort_values('WSPS',ascending=False)
+    d = df.loc[df.Year == year.astype('int')].sort_values('WSPS',ascending=False)
     d = d.reset_index(drop=True)
     d = d.reset_index(drop=False)
     d = d.rename(columns={'index':'Redraft'})
