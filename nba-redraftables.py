@@ -1,7 +1,16 @@
 import pandas as pd
 import numpy as np
 import plotly_express as px
+from datetime import datetime
+import requests
 import streamlit as st
+
+def track_google_analytics_event(event_category, event_action, event_label):
+    tracking_id = 'UA-18433914-1'
+    clientid_str = str(datetime.now())
+    tracking_url = 'https://www.google-analytics.com/collect?v=1&t=event&tid='+tracking_id+'&cid='+clientid_str+'&ec='+event_category+'&ea='+event_action+'&el='+event_label+'&aip=1'
+    requests.post(tracking_url)
+
 
 def load_data():
 
@@ -80,13 +89,15 @@ def main():
     st.write("""
     # Welcome to NBA Redraftables!
     Hindsight is 20/20 -- with year's of statistical data, how would each year be redrafted? Select a year to see!""")
-    st.write('<img src="https://www.google-analytics.com/collect?v=1&tid=UA-18433914-1&cid=555&aip=1&t=event&ec=nba_redraft&ea=page_load">',unsafe_allow_html=True)
+    # st.write('<img src="https://www.google-analytics.com/collect?v=1&tid=UA-18433914-1&cid=555&aip=1&t=event&ec=nba_redraft&ea=page_load">',unsafe_allow_html=True)
+    track_google_analytics_event('nba_redraftables', 'main', 'page_load')
     df = load_data()
     year_list = df.Year.unique().astype('str')
     year_list=np.insert(year_list,0,'')
     year = st.selectbox('Select a year to view the draft - ',year_list,0)
     if len(year) > 0:
-        st.write('<img src="https://www.google-analytics.com/collect?v=1&tid=UA-18433914-1&cid=555&aip=1&t=event&ec=nba_redraft&ea='+str(year)+'">',unsafe_allow_html=True)
+        # st.write('<img src="https://www.google-analytics.com/collect?v=1&tid=UA-18433914-1&cid=555&aip=1&t=event&ec=nba_redraft&ea='+str(year)+'">',unsafe_allow_html=True)
+        track_google_analytics_event('nba_redraftables', 'year', str(year))
         draft_scatter(year, df)
         redraft_bar(year, df)
 
