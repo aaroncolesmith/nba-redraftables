@@ -89,15 +89,15 @@ def main():
     st.write("""
     # Welcome to NBA Redraftables!
     Hindsight is 20/20 -- with year's of statistical data, how would each year be redrafted? Select a year to see!""")
-    # st.write('<img src="https://www.google-analytics.com/collect?v=1&tid=UA-18433914-1&cid=555&aip=1&t=event&ec=nba_redraft&ea=page_load">',unsafe_allow_html=True)
-    track_google_analytics_event('nba_redraftables', 'main', 'page_load')
+    st.write('<img src="https://www.google-analytics.com/collect?v=1&tid=UA-18433914-1&cid=555&aip=1&t=event&ec=nba_redraft&ea=page_load">',unsafe_allow_html=True)
+    # track_google_analytics_event('nba_redraftables', 'main', 'page_load')
     df = load_data()
     year_list = df.Year.unique().astype('str')
     year_list=np.insert(year_list,0,'')
     year = st.selectbox('Select a year to view the draft - ',year_list,0)
     if len(year) > 0:
-        # st.write('<img src="https://www.google-analytics.com/collect?v=1&tid=UA-18433914-1&cid=555&aip=1&t=event&ec=nba_redraft&ea='+str(year)+'">',unsafe_allow_html=True)
-        track_google_analytics_event('nba_redraftables', 'year', str(year))
+        st.write('<img src="https://www.google-analytics.com/collect?v=1&tid=UA-18433914-1&cid=555&aip=1&t=event&ec=nba_redraft&ea='+str(year)+'">',unsafe_allow_html=True)
+        # track_google_analytics_event('nba_redraftables', 'year', str(year))
         draft_scatter(year, df)
         redraft_bar(year, df)
 
