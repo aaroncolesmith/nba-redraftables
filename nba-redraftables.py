@@ -67,22 +67,22 @@ def draft_scatter(year, df):
 def redraft_bar(year, df):
     d = redraft_data(year, df)
 
-    fig=px.bar(d.loc[d.WSPS != 0].sort_values('WSPS',ascending=True),
+    fig=px.bar(d.sort_values('WSPS',ascending=True),
+        #d.loc[d.WSPS != 0].sort_values('WSPS',ascending=True),
            y='Player',
            x='WSPS',
                title='Win Shares Per Season (WSPS) by Player',
                hover_data=['Pk','Redraft','Tm','College'],
-           orientation='h',
-               height=800
+           orientation='h'
           )
 
     fig.update_yaxes(tickfont=dict(size=8))
     fig.update_xaxes(tickfont=dict(size=8))
 
-    fig.update_layout(height=600)
+    fig.update_layout(height=800)
 
-    st.plotly_chart(fig,height=700)
-    # st.plotly_chart(fig)
+    st.plotly_chart(fig,height=800)
+    st.plotly_chart(fig)
 
 
 def main():
